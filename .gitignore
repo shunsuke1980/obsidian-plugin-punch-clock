@@ -1,0 +1,25 @@
+# Intellij
+*.iml
+.idea
+
+# npm
+node_modules
+npm-debug.log
+
+# build
+main.js
+*.js.map
+
+# env
+.env
+
+# macOS
+.DS_Store
+
+# Test data
+*.csv
+categories.json
+running-timer.json
+
+# Distribution files
+*.zip

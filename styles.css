@@ -1,0 +1,398 @@
+/* Punch Clock Plugin Styles */
+
+/* Running Timer styles - updated for real-time display */
+.running-timer-container {
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.running-timer-header {
+    margin-bottom: 0.5rem;
+}
+
+.running-timer-header h3 {
+    margin: 0;
+    color: var(--text-on-accent);
+}
+
+.running-timer {
+    text-align: center;
+    margin: 0.75rem 0;
+}
+
+.timer-value {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.timer-details {
+    margin: 0.75rem 0;
+}
+
+.timer-category-container, .timer-memo-container {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.category-dropdown-container {
+    margin-left: 0.5rem;
+}
+
+.timer-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.75rem;
+}
+
+.timer-actions button {
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+}
+
+/* Modal Styles */
+.punch-clock-modal {
+    max-width: 500px;
+}
+
+.timer-container {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.elapsed-time {
+    font-size: 2.5rem;
+    font-weight: bold;
+    font-family: monospace;
+}
+
+.form-container {
+    margin: 1rem 0;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.recent-entries-container {
+    margin-top: 2rem;
+    border-top: 1px solid var(--background-modifier-border);
+    padding-top: 1rem;
+}
+
+.recent-entry {
+    padding: 0.75rem;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+    background-color: var(--background-secondary);
+    position: relative;
+}
+
+.entry-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.1rem;
+}
+
+.entry-header {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.entry-memo {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.entry-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* View Styles */
+.punch-clock-view {
+    padding: 1rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.punch-clock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.view-switcher {
+    display: flex;
+    gap: 0;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.view-switcher .clickable-icon {
+    border-radius: 0 !important;
+    border: none !important;
+    border-right: 1px solid var(--background-modifier-border);
+    margin: 0 !important;
+}
+
+.view-switcher .clickable-icon:last-child {
+    border-right: none;
+}
+
+.view-switcher .clickable-icon.active {
+    background-color: var(--interactive-accent) !important;
+    color: var(--text-on-accent) !important;
+}
+
+.date-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.current-date {
+    font-weight: bold;
+    min-width: 150px;
+    text-align: center;
+}
+
+.summary-section {
+    background-color: var(--background-secondary);
+    border-radius: 5px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.category-breakdown {
+    margin-top: 1rem;
+}
+
+.entries-section {
+    margin-top: 1rem;
+}
+
+.entries-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.entry-item {
+    background-color: var(--background-secondary);
+    border-radius: 5px;
+    padding: 0.75rem;
+    position: relative;
+}
+
+/* Edit controls */
+.entry-edit-buttons {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.35rem;
+}
+
+/* Edit Modal Styles */
+.punch-clock-edit-modal, .punch-clock-start-modal {
+    max-width: 500px;
+}
+
+.punch-clock-edit-modal .input-container,
+.punch-clock-start-modal .input-container {
+    margin-bottom: 1rem;
+}
+
+.punch-clock-edit-modal .input-container label,
+.punch-clock-start-modal .input-container label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-weight: bold;
+}
+
+.punch-clock-edit-modal .button-container,
+.punch-clock-start-modal .button-container {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
+}
+
+/* Date and Time picker styles */
+.datetime-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.date-picker-container,
+.time-picker-container {
+    flex: 1;
+}
+
+.date-picker-container label,
+.time-picker-container label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.85rem;
+}
+
+.date-picker-container input,
+.time-picker-container input {
+    width: 100%;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border-radius: 4px;
+    border: 1px solid var(--background-modifier-border);
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+}
+
+.daily-breakdown {
+    margin-top: 1rem;
+}
+
+/* Weekly View Styles */
+.day-bar-container {
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.day-name {
+    flex: 0 0 100px;
+    font-weight: bold;
+}
+
+.day-bar-wrapper {
+    flex: 1;
+    margin: 0 1rem;
+}
+
+.day-bar {
+    height: 1rem;
+    background-color: var(--background-modifier-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.day-bar-fill {
+    height: 100%;
+    background-color: var(--interactive-accent);
+}
+
+.day-duration {
+    flex: 0 0 70px;
+    text-align: right;
+    font-size: 0.9rem;
+}
+
+.day-entries-container {
+    margin-bottom: 1.5rem;
+}
+
+.entry-item.compact {
+    padding: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.entry-content-row {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.25rem;
+    font-size: 0.9rem;
+}
+
+.entry-category-compact {
+    font-weight: bold;
+}
+
+.entry-memo-compact {
+    color: var(--text-muted);
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+.spacer {
+    height: 1rem;
+}
+
+/* Chart styles */
+.chart-container {
+    margin-top: 0.5rem;
+}
+
+.chart-bar-container {
+    margin-bottom: 0.75rem;
+}
+
+.chart-bar-label-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.25rem;
+}
+
+.chart-bar-label {
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.chart-bar {
+    height: 1.25rem;
+    background-color: var(--background-modifier-border);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.chart-bar-fill {
+    height: 100%;
+    background-color: var(--interactive-accent);
+}
+
+.chart-bar-value {
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+}
+
+/* Mobile optimizations */
+@media screen and (max-width: 768px) {
+    .punch-clock-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    .view-switcher, .date-nav {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .elapsed-time {
+        font-size: 2rem;
+    }
+
+    .buttons-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .buttons-container .clickable-icon {
+        height: 3rem;
+    }
+}

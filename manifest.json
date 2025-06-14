@@ -1,0 +1,10 @@
+{
+	"id": "punch-clock",
+	"name": "Punch Clock",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Comprehensive time tracking plugin for Obsidian with time tracking, reporting, and CSV export.",
+	"author": "shunsuke1980",
+	"authorUrl": "https://github.com/shunsuke1980",
+	"isDesktopOnly": false
+}
