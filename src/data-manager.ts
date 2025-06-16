@@ -2,18 +2,24 @@ import { Plugin, TFile, Notice } from 'obsidian';
 import { TimeEntry, MonthlyReport, DailyReport, PunchClockSettings } from './types';
 import moment from 'moment';
 
+// Interface for the plugin that DataManager expects
+interface PunchClockPluginInterface extends Plugin {
+    settings: PunchClockSettings;
+    saveSettings(): Promise<void>;
+}
+
 export class DataManager {
-    private plugin: Plugin;
+    private plugin: PunchClockPluginInterface;
     private settings: PunchClockSettings;
     private entries: TimeEntry[] = [];
     private categoriesFile = 'categories.json';
     private runningTimerFile = 'running-timer.json';
     private storageDirectory: string;
 
-    constructor(plugin: Plugin) {
+    constructor(plugin: PunchClockPluginInterface) {
         this.plugin = plugin;
-        // Access settings from the plugin instance, which should be TimeTrackerPlugin
-        this.settings = (plugin as any).settings as PunchClockSettings;
+        // Access settings from the plugin instance
+        this.settings = plugin.settings;
         this.storageDirectory = this.settings?.storageDirectory || 'punch-clock-data';
     }
 
@@ -71,7 +77,7 @@ export class DataManager {
         
         // Initialize categories file if it doesn't exist
         const categoriesPath = this.storageDirectory ? `${this.storageDirectory}/${this.categoriesFile}` : this.categoriesFile;
-        const existingCategoriesFile = vault.getAbstractFileByPath(categoriesPath) as TFile;
+        const existingCategoriesFile = vault.getAbstractFileByPath(categoriesPath);
         if (!existingCategoriesFile) {
             // Initialize with default categories
             const categories = {
@@ -260,9 +266,9 @@ export class DataManager {
             content = 'Date,Start Time,End Time,Duration(seconds),Duration(minutes),Duration(hours),Category,Memo\n';
         } else {
             // Read existing file
-            const file = vault.getAbstractFileByPath(filePath) as TFile;
-            if (file) {
-                content = await vault.read(file);
+            const abstractFile = vault.getAbstractFileByPath(filePath);
+            if (abstractFile instanceof TFile) {
+                content = await vault.read(abstractFile);
             } else {
                 // File doesn't exist yet
                 content = 'Date,Start Time,End Time,Duration(seconds),Duration(minutes),Duration(hours),Category,Memo\n';
@@ -303,9 +309,9 @@ export class DataManager {
         try {
             if (fileExists) {
                 // Update existing file
-                const file = vault.getAbstractFileByPath(filePath) as TFile;
-                if (file) {
-                    await vault.modify(file, content);
+                const abstractFile = vault.getAbstractFileByPath(filePath);
+                if (abstractFile instanceof TFile) {
+                    await vault.modify(abstractFile, content);
                 } else {
                     // Fallback to adapter write
                     await vault.adapter.write(filePath, content);
@@ -395,9 +401,9 @@ export class DataManager {
             // Save the running timer
             try {
                 const jsonContent = JSON.stringify(entry, null, 2);
-                const existingFile = vault.getAbstractFileByPath(runningTimerPath) as TFile;
-                if (existingFile) {
-                    await vault.modify(existingFile, jsonContent);
+                const abstractFile = vault.getAbstractFileByPath(runningTimerPath);
+                if (abstractFile instanceof TFile) {
+                    await vault.modify(abstractFile, jsonContent);
                 } else {
                     await vault.create(runningTimerPath, jsonContent);
                 }
@@ -406,10 +412,10 @@ export class DataManager {
             }
         } else {
             // Delete the running timer file if it exists
-            const existingFile = vault.getAbstractFileByPath(runningTimerPath) as TFile;
-            if (existingFile) {
+            const abstractFile = vault.getAbstractFileByPath(runningTimerPath);
+            if (abstractFile instanceof TFile) {
                 try {
-                    await vault.delete(existingFile);
+                    await this.plugin.app.fileManager.trashFile(abstractFile);
                 } catch (error) {
                     console.error('Error deleting running timer file:', error);
                 }
@@ -437,10 +443,10 @@ export class DataManager {
         }
         
         // Read existing file
-        const file = vault.getAbstractFileByPath(filePath) as TFile;
-        if (!file) return;
+        const abstractFile = vault.getAbstractFileByPath(filePath);
+        if (!(abstractFile instanceof TFile)) return;
         
-        const content = await vault.read(file);
+        const content = await vault.read(abstractFile);
         const lines = content.split('\n');
         const targetId = entry.id;
         
@@ -487,13 +493,13 @@ export class DataManager {
             
             if (fileExists) {
                 // Try to read using vault API first
-                const categoriesFile = vault.getAbstractFileByPath(categoriesPath) as TFile;
+                const abstractFile = vault.getAbstractFileByPath(categoriesPath);
                 
                 let categoriesData: string;
                 
-                if (categoriesFile) {
+                if (abstractFile instanceof TFile) {
                     // Use vault.read if file object is available
-                    categoriesData = await vault.read(categoriesFile);
+                    categoriesData = await vault.read(abstractFile);
                 } else {
                     // Fallback to adapter.read if getAbstractFileByPath failed
                     categoriesData = await vault.adapter.read(categoriesPath);
@@ -516,9 +522,8 @@ export class DataManager {
                 }
                 
                 // Update the plugin settings
-                const plugin = this.plugin as any;
-                if (plugin.saveSettings) {
-                    await plugin.saveSettings();
+                if (this.plugin.saveSettings) {
+                    await this.plugin.saveSettings();
                 }
             } else {
                 // Create default categories file if it doesn't exist
@@ -543,11 +548,11 @@ export class DataManager {
         };
         
         const jsonContent = JSON.stringify(categories, null, 2);
-        const existingFile = vault.getAbstractFileByPath(categoriesPath) as TFile;
+        const abstractFile = vault.getAbstractFileByPath(categoriesPath);
         
         try {
-            if (existingFile) {
-                await vault.modify(existingFile, jsonContent);
+            if (abstractFile instanceof TFile) {
+                await vault.modify(abstractFile, jsonContent);
             } else {
                 // Check if file exists using adapter before creating
                 const fileExists = await vault.adapter.exists(categoriesPath);
@@ -682,7 +687,10 @@ export class DataManager {
             const vault = this.plugin.app.vault;
             const runningTimerPath = this.storageDirectory ? `${this.storageDirectory}/${this.runningTimerFile}` : this.runningTimerFile;
             if (await vault.adapter.exists(runningTimerPath)) {
-                await vault.adapter.remove(runningTimerPath);
+                const abstractFile = vault.getAbstractFileByPath(runningTimerPath);
+                if (abstractFile) {
+                    await this.plugin.app.fileManager.trashFile(abstractFile);
+                }
             }
         }
     }
@@ -747,13 +755,13 @@ export class DataManager {
         const filePath = this.storageDirectory ? `${this.storageDirectory}/${fileName}` : fileName;
         
         
-        const file = vault.getAbstractFileByPath(filePath) as TFile;
-        if (!file) {
+        const abstractFile = vault.getAbstractFileByPath(filePath);
+        if (!(abstractFile instanceof TFile)) {
             return [];
         }
 
         try {
-            const content = await vault.read(file);
+            const content = await vault.read(abstractFile);
             const entries = this.parseCSV(content);
             
             // Add any running timer for the current month if it exists

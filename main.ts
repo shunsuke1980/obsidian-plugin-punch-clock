@@ -73,7 +73,7 @@ export default class PunchClockPlugin extends Plugin {
         // Add command to open time tracker view
         this.addCommand({
             id: 'open-time-tracker-view',
-            name: 'Open Punch Clock Panel',
+            name: 'Open Panel',
             callback: async () => {
                 await this.activateView();
             }
@@ -209,9 +209,6 @@ export default class PunchClockPlugin extends Plugin {
         if (runningEntry) {
             this.dataManager.stopRunningEntry();
         }
-
-        // Clean up the active leaf
-        this.app.workspace.detachLeavesOfType(PUNCH_CLOCK_VIEW_TYPE);
     }
 
     async loadSettings() {
