@@ -8,6 +8,20 @@ export class PunchClockSettingTab extends PluginSettingTab {
         super(app, plugin);
         this.plugin = plugin;
     }
+    
+    /**
+     * Updates dynamic styles in all open views
+     */
+    private updateViewStyles(): void {
+        // Get all leaves with our view type
+        const leaves = this.app.workspace.getLeavesOfType('punch-clock-view');
+        leaves.forEach((leaf) => {
+            const view = leaf.view as any;
+            if (view && view.updateDynamicStyles) {
+                view.updateDynamicStyles();
+            }
+        });
+    }
 
     display(): void {
         const { containerEl } = this;
@@ -61,6 +75,8 @@ export class PunchClockSettingTab extends PluginSettingTab {
                                 if (this.plugin.dataManager) {
                                     await this.plugin.dataManager.saveCategories();
                                 }
+                                // Update dynamic styles in the view
+                                this.updateViewStyles();
                             });
                     });
             });

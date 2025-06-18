@@ -358,6 +358,7 @@ export class PunchClockView extends ItemView {
     private dayButton: ButtonComponent | null = null;
     private weekButton: ButtonComponent | null = null;
     private monthButton: ButtonComponent | null = null;
+    private styleEl: HTMLStyleElement | null = null;
 
     constructor(
         leaf: WorkspaceLeaf,
@@ -383,6 +384,9 @@ export class PunchClockView extends ItemView {
         const { contentEl } = this;
         contentEl.empty();
         contentEl.addClass('punch-clock-view');
+        
+        // Create style element for dynamic colors
+        this.injectDynamicStyles();
 
         // Create header
         const headerEl = contentEl.createDiv({ cls: 'punch-clock-header' });
@@ -574,6 +578,9 @@ export class PunchClockView extends ItemView {
             this.timerValueEl = null;
         }
         
+        // Update dynamic styles in case categories changed
+        this.injectDynamicStyles();
+        
         // Update date display
         const dateDisplay = this.contentEl.querySelector('.current-date');
         if (dateDisplay) {
@@ -593,7 +600,7 @@ export class PunchClockView extends ItemView {
             
             // Apply category color as background
             const categoryColor = this.settings.categoryColors?.[runningEntry.category] || '#4a90e2';
-            runningTimerEl.style.setProperty('--punch-clock-category-color', categoryColor);
+            runningTimerEl.setAttribute('data-category-color', categoryColor);
             
             const headerEl = runningTimerEl.createDiv({ cls: 'running-timer-header' });
             headerEl.createEl('h3', { text: 'Timer Running' });
@@ -639,7 +646,7 @@ export class PunchClockView extends ItemView {
                     await this.dataManager.updateEntry(runningEntry.id, { category: value });
                     // Update background color to match new category
                     const newCategoryColor = this.settings.categoryColors?.[value] || '#4a90e2';
-                    runningTimerEl.style.setProperty('--punch-clock-category-color', newCategoryColor);
+                    runningTimerEl.setAttribute('data-category-color', newCategoryColor);
                     // Update the running entry reference for category breakdown updates
                     runningEntry.category = value;
                     new Notice(`Category updated to ${value}`);
@@ -806,7 +813,7 @@ export class PunchClockView extends ItemView {
                     cls: 'entry-category-value',
                     text: entry.category
                 });
-                categoryValueEl.style.setProperty('--punch-clock-category-color', categoryColor);
+                categoryValueEl.setAttribute('data-category-color', categoryColor);
                 
                 if (entry.memo) {
                     const memoEl = entryEl.createDiv({ cls: 'entry-memo' });
@@ -871,7 +878,7 @@ export class PunchClockView extends ItemView {
                 // Create category label with color badge
                 const categoryLabelEl = labelContainer.createDiv({ cls: 'chart-bar-label' });
                 const colorBadge = categoryLabelEl.createSpan({ cls: 'category-color-badge' });
-                colorBadge.style.setProperty('--punch-clock-category-color', categoryColor);
+                colorBadge.setAttribute('data-category-color', categoryColor);
                 categoryLabelEl.createSpan({ text: category });
                 
                 labelContainer.createDiv({
@@ -882,8 +889,8 @@ export class PunchClockView extends ItemView {
                 // Bar visualization
                 const barEl = barContainer.createDiv({ cls: 'chart-bar' });
                 const barFill = barEl.createDiv({ cls: 'chart-bar-fill' });
-                barFill.style.setProperty('--punch-clock-bar-width', `${percentage}%`);
-                barFill.style.setProperty('--punch-clock-category-color', categoryColor);
+                barFill.setAttribute('data-bar-width', `${percentage}`);
+                barFill.setAttribute('data-category-color', categoryColor);
             });
         } else {
             summaryEl.createEl('p', { text: 'No time entries for this week.' });
@@ -933,7 +940,7 @@ export class PunchClockView extends ItemView {
                 const barContainer = dayContainer.createDiv({ cls: 'day-bar-wrapper' });
                 const barEl = barContainer.createDiv({ cls: 'day-bar' });
                 const barFill = barEl.createDiv({ cls: 'day-bar-fill' });
-                barFill.style.setProperty('--punch-clock-bar-width', `${percentage}%`);
+                barFill.setAttribute('data-bar-width', `${percentage}`);
                 
                 dayContainer.createDiv({
                     cls: 'day-duration',
@@ -973,13 +980,13 @@ export class PunchClockView extends ItemView {
                 // Category label with color badge
                 const labelEl = barContainer.createDiv({ cls: 'chart-bar-label' });
                 const colorBadge = labelEl.createSpan({ cls: 'category-color-badge' });
-                colorBadge.style.setProperty('--punch-clock-category-color', categoryColor);
+                colorBadge.setAttribute('data-category-color', categoryColor);
                 labelEl.createSpan({ text: category });
                 
                 const barEl = barContainer.createDiv({ cls: 'chart-bar' });
                 const barFill = barEl.createDiv({ cls: 'chart-bar-fill' });
-                barFill.style.setProperty('--punch-clock-bar-width', `${percentage}%`);
-                barFill.style.setProperty('--punch-clock-category-color', categoryColor);
+                barFill.setAttribute('data-bar-width', `${percentage}`);
+                barFill.setAttribute('data-category-color', categoryColor);
                 
                 barContainer.createDiv({
                     cls: 'chart-bar-value',
@@ -1032,7 +1039,7 @@ export class PunchClockView extends ItemView {
             // Create category label with color badge
             const categoryLabelEl = labelContainer.createDiv({ cls: 'chart-bar-label' });
             const colorBadge = categoryLabelEl.createSpan({ cls: 'category-color-badge' });
-            colorBadge.style.setProperty('--punch-clock-category-color', categoryColor);
+            colorBadge.setAttribute('data-category-color', categoryColor);
             categoryLabelEl.createSpan({ text: category });
             
             labelContainer.createDiv({
@@ -1043,8 +1050,8 @@ export class PunchClockView extends ItemView {
             // Bar visualization
             const barEl = barContainer.createDiv({ cls: 'chart-bar' });
             const barFill = barEl.createDiv({ cls: 'chart-bar-fill' });
-            barFill.style.setProperty('--punch-clock-bar-width', `${percentage}%`);
-            barFill.style.setProperty('--punch-clock-category-color', categoryColor);
+            barFill.setAttribute('data-bar-width', `${percentage}`);
+            barFill.setAttribute('data-category-color', categoryColor);
         });
     }
 
@@ -1201,5 +1208,68 @@ export class PunchClockView extends ItemView {
             clearInterval(this.timerInterval);
             this.timerInterval = null;
         }
+        
+        // Remove dynamic styles
+        if (this.styleEl && this.styleEl.parentNode) {
+            this.styleEl.parentNode.removeChild(this.styleEl);
+            this.styleEl = null;
+        }
+    }
+    
+    /**
+     * Injects dynamic CSS rules for category colors and bar widths
+     */
+    private injectDynamicStyles(): void {
+        // Remove existing style element if present
+        if (this.styleEl && this.styleEl.parentNode) {
+            this.styleEl.parentNode.removeChild(this.styleEl);
+        }
+        
+        // Create new style element
+        this.styleEl = document.createElement('style');
+        this.styleEl.textContent = this.generateDynamicCSS();
+        document.head.appendChild(this.styleEl);
+    }
+    
+    /**
+     * Generates CSS rules for all possible color values and percentage widths
+     */
+    private generateDynamicCSS(): string {
+        let css = '';
+        
+        // Generate CSS for category colors
+        if (this.settings.categoryColors) {
+            Object.entries(this.settings.categoryColors).forEach(([category, color]) => {
+                // Escape the color value for use in attribute selector
+                const escapedColor = CSS.escape(color);
+                
+                // Running timer background
+                css += `.running-timer-container[data-category-color="${escapedColor}"] { background-color: ${color}; }\n`;
+                
+                // Category badges
+                css += `.entry-category-value[data-category-color="${escapedColor}"] { background-color: ${color}; }\n`;
+                
+                // Color badges
+                css += `.category-color-badge[data-category-color="${escapedColor}"] { background-color: ${color}; }\n`;
+                
+                // Chart bars
+                css += `.chart-bar-fill[data-category-color="${escapedColor}"] { background-color: ${color}; }\n`;
+            });
+        }
+        
+        // Generate CSS for percentage widths (0-100)
+        for (let i = 0; i <= 100; i++) {
+            css += `.chart-bar-fill[data-bar-width="${i}"] { width: ${i}%; }\n`;
+            css += `.day-bar-fill[data-bar-width="${i}"] { width: ${i}%; }\n`;
+        }
+        
+        return css;
+    }
+    
+    /**
+     * Updates dynamic styles when settings change
+     */
+    updateDynamicStyles(): void {
+        this.injectDynamicStyles();
     }
 }

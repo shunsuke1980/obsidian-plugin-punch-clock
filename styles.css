@@ -2,7 +2,7 @@
 
 /* Running Timer styles - updated for real-time display */
 .running-timer-container {
-    background-color: var(--punch-clock-category-color, var(--interactive-accent));
+    background-color: var(--interactive-accent);
     color: var(--text-on-accent);
     border-radius: 8px;
     padding: 1rem;
@@ -294,7 +294,7 @@
 
 .day-bar-fill {
     height: 100%;
-    width: var(--punch-clock-bar-width, 0%);
+    width: 0%;
     background-color: var(--interactive-accent);
 }
 
@@ -363,8 +363,8 @@
 
 .chart-bar-fill {
     height: 100%;
-    width: var(--punch-clock-bar-width, 0%);
-    background-color: var(--punch-clock-category-color, var(--interactive-accent));
+    width: 0%;
+    background-color: var(--interactive-accent);
 }
 
 .chart-bar-value {
@@ -374,7 +374,7 @@
 
 /* Category value badges */
 .entry-category-value {
-    background-color: var(--punch-clock-category-color, #4a90e2);
+    background-color: #4a90e2;
     color: #ffffff;
     padding: 2px 8px;
     border-radius: 4px;
@@ -384,7 +384,7 @@
 
 /* Category color badges */
 .category-color-badge {
-    background-color: var(--punch-clock-category-color, #4a90e2);
+    background-color: #4a90e2;
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -394,8 +394,8 @@
 
 /* Dynamic chart bars */
 .chart-bar-fill {
-    width: var(--punch-clock-bar-width, 0%);
-    background-color: var(--punch-clock-category-color, #4a90e2);
+    width: 0%;
+    background-color: #4a90e2;
 }
 
 /* Mobile optimizations */
