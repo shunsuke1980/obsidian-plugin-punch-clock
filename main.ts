@@ -1,4 +1,4 @@
-import { Plugin, WorkspaceLeaf, Notice, addIcon } from 'obsidian';
+import { Plugin, WorkspaceLeaf, Notice } from 'obsidian';
 import { DataManager } from './src/data-manager';
 import { TimerModal } from './src/modal';
 import { PunchClockView, PUNCH_CLOCK_VIEW_TYPE } from './src/view';
@@ -23,8 +23,6 @@ const DEFAULT_SETTINGS: PunchClockSettings = {
     startDayOfWeek: 0 // Default to Sunday
 };
 
-// Define the timer icon
-const TIMER_ICON = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-timer"><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/><line x1="12" x2="12" y1="14" y2="16"/><line x1="12" x2="10.5" y1="14" y2="5.5"/><circle cx="12" cy="14" r="8"/></svg>`;
 
 export default class PunchClockPlugin extends Plugin {
     settings: PunchClockSettings;
@@ -33,9 +31,6 @@ export default class PunchClockPlugin extends Plugin {
     activeTimer: NodeJS.Timeout | null = null;
 
     async onload() {
-        
-        // Register the custom icon
-        addIcon('timer', TIMER_ICON);
         
         // Load settings
         await this.loadSettings();
