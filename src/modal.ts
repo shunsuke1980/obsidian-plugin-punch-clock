@@ -250,7 +250,7 @@ export class TimerModal extends Modal {
 
         // Create container
         const entriesContainer = containerEl.createDiv({ cls: 'recent-entries-container' });
-        entriesContainer.createEl('h3', { text: 'Recent Entries' });
+        entriesContainer.createEl('h3', { text: 'Recent entries' });
 
         // Create entries list
         const entriesList = entriesContainer.createEl('div', { cls: 'recent-entries-list' });
@@ -300,7 +300,7 @@ export class TimerModal extends Modal {
             // Continue button
             new ButtonComponent(actionsContainer)
                 .setIcon('copy')
-                .setTooltip('Start New Timer')
+                .setTooltip('Start new timer')
                 .onClick(() => {
                     this.continueEntry(entry.id);
                 });

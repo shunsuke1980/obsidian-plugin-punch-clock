@@ -36,14 +36,14 @@ class EditEntryModal extends Modal {
         contentEl.addClass('punch-clock-edit-modal');
 
         // Title
-        contentEl.createEl('h2', { text: 'Edit Time Entry' });
+        contentEl.createEl('h2', { text: 'Edit time entry' });
 
         // Form container
         const formContainer = contentEl.createDiv({ cls: 'form-container' });
 
         // Start Time
         const startTimeContainer = formContainer.createDiv({ cls: 'input-container' });
-        startTimeContainer.createEl('label', { text: 'Start Time' });
+        startTimeContainer.createEl('label', { text: 'Start time' });
         
         // Create date-time picker sections
         const startDateTime = formContainer.createDiv({ cls: 'datetime-container' });
@@ -72,7 +72,7 @@ class EditEntryModal extends Modal {
 
         // End Time
         const endTimeContainer = formContainer.createDiv({ cls: 'input-container' });
-        endTimeContainer.createEl('label', { text: 'End Time' });
+        endTimeContainer.createEl('label', { text: 'End time' });
         
         // Create date-time picker sections for end time
         const endDateTime = formContainer.createDiv({ cls: 'datetime-container' });
@@ -230,7 +230,7 @@ class StartTimerModal extends Modal {
         contentEl.addClass('punch-clock-start-modal');
 
         // Title
-        contentEl.createEl('h2', { text: 'Start New Timer' });
+        contentEl.createEl('h2', { text: 'Start new timer' });
 
         // Timer display (will update in real-time)
         const timerContainer = contentEl.createDiv({ cls: 'timer-container' });
@@ -269,7 +269,7 @@ class StartTimerModal extends Modal {
 
         // Start button
         new ButtonComponent(buttonContainer)
-            .setButtonText('Start Timer')
+            .setButtonText('Start timer')
             .setCta()
             .onClick(async () => {
                 await this.startTimer();
@@ -458,7 +458,7 @@ export class PunchClockView extends ItemView {
         // Start Timer button (adding this as requested)
         new ButtonComponent(headerEl)
             .setIcon('play')
-            .setTooltip('Start New Timer')
+            .setTooltip('Start new timer')
             .setCta() // Make it stand out
             .onClick(async () => {
                 await this.openTimerModal();
@@ -603,7 +603,7 @@ export class PunchClockView extends ItemView {
             runningTimerEl.setAttribute('data-category-color', categoryColor);
             
             const headerEl = runningTimerEl.createDiv({ cls: 'running-timer-header' });
-            headerEl.createEl('h3', { text: 'Timer Running' });
+            headerEl.createEl('h3', { text: 'Timer running' });
             
             // Calculate initial elapsed time
             const now = Date.now();
@@ -672,7 +672,7 @@ export class PunchClockView extends ItemView {
             
             // Stop button
             new ButtonComponent(actionsEl)
-                .setButtonText('Stop Timer')
+                .setButtonText('Stop timer')
                 .setCta()
                 .onClick(async () => {
                     await this.dataManager.stopRunningEntry();
@@ -734,7 +734,7 @@ export class PunchClockView extends ItemView {
         
         if (Object.keys(categoryBreakdownWithRunning).length > 0) {
             const breakdownEl = summaryEl.createDiv({ cls: 'category-breakdown' });
-            breakdownEl.createEl('h4', { text: 'Category Breakdown' });
+            breakdownEl.createEl('h4', { text: 'Category breakdown' });
             
             // Create visual breakdown - horizontal bar chart
             this.categoriesListEl = breakdownEl.createDiv({ cls: 'chart-container' });
@@ -782,7 +782,7 @@ export class PunchClockView extends ItemView {
                 // Edit button
                 new ButtonComponent(editButtonsContainer)
                     .setIcon('pencil')
-                    .setTooltip('Edit Entry')
+                    .setTooltip('Edit entry')
                     .onClick(async () => {
                         await this.openEditEntryModal(entry.id);
                     });
@@ -790,7 +790,7 @@ export class PunchClockView extends ItemView {
                 // Delete button
                 new ButtonComponent(editButtonsContainer)
                     .setIcon('trash')
-                    .setTooltip('Delete Entry')
+                    .setTooltip('Delete entry')
                     .onClick(async () => {
                         if (confirm('Are you sure you want to delete this entry?')) {
                             await this.dataManager.deleteEntry(entry.id);
@@ -802,7 +802,7 @@ export class PunchClockView extends ItemView {
                 // Continue button
                 new ButtonComponent(editButtonsContainer)
                     .setIcon('copy')
-                    .setTooltip('Start New Timer with Same Settings')
+                    .setTooltip('Start new timer with same settings')
                     .onClick(async () => {
                         await this.continueTimer(entry.id);
                     });
@@ -857,7 +857,7 @@ export class PunchClockView extends ItemView {
         // Category breakdown with visualization
         if (Object.keys(categoryBreakdown).length > 0) {
             const breakdownEl = summaryEl.createDiv({ cls: 'category-breakdown' });
-            breakdownEl.createEl('h4', { text: 'Category Breakdown' });
+            breakdownEl.createEl('h4', { text: 'Category breakdown' });
             
             // Create visual breakdown - horizontal bar chart
             const chartContainer = breakdownEl.createDiv({ cls: 'chart-container' });
@@ -899,7 +899,7 @@ export class PunchClockView extends ItemView {
         // Daily breakdown with visualization
         if (entries.length > 0) {
             const dailyBreakdownEl = this.contentContainer.createDiv({ cls: 'daily-breakdown' });
-            dailyBreakdownEl.createEl('h3', { text: 'Daily Breakdown' });
+            dailyBreakdownEl.createEl('h3', { text: 'Daily breakdown' });
             
             // Group entries by day
             const dailyGroups: { [date: string]: number } = {};

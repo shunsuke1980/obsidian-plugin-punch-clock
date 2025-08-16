@@ -54,7 +54,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Category Colors
         if (this.plugin.settings.categories.length > 0) {
-            containerEl.createEl('h3', { text: 'Category Colors' });
+            containerEl.createEl('h3', { text: 'Category colors' });
 
             // Ensure all categories have colors
             if (!this.plugin.settings.categoryColors) {
@@ -84,7 +84,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Default Category
         new Setting(containerEl)
-            .setName('Default Category')
+            .setName('Default category')
             .setDesc('The default category for new time entries.')
             .addDropdown(dropdown => {
                 this.plugin.settings.categories.forEach(category => {
@@ -103,7 +103,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Auto-save
         new Setting(containerEl)
-            .setName('Auto-save Entries')
+            .setName('Auto-save entries')
             .setDesc('Automatically save entries when timer is stopped.')
             .addToggle(toggle => toggle
                 .setValue(this.plugin.settings.autoSave)
@@ -115,7 +115,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Default view
         new Setting(containerEl)
-            .setName('Default View')
+            .setName('Default view')
             .setDesc('The default view when opening the punch clock panel.')
             .addDropdown(dropdown => {
                 dropdown.addOption('daily', 'Daily');
@@ -130,7 +130,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Date format setting
         new Setting(containerEl)
-            .setName('Date Format')
+            .setName('Date format')
             .setDesc('Format for displaying dates. Uses Moment.js syntax.')
             .addText(text => text
                 .setPlaceholder('YYYY-MM-DD')
@@ -142,7 +142,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Time format setting
         new Setting(containerEl)
-            .setName('Time Format')
+            .setName('Time format')
             .setDesc('Format for displaying times. Uses Moment.js syntax.')
             .addDropdown(dropdown => {
                 dropdown.addOption('HH:mm:ss', '24-hour (13:45:30)');
@@ -158,7 +158,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Storage directory setting
         new Setting(containerEl)
-            .setName('Storage Directory')
+            .setName('Storage directory')
             .setDesc('Directory to store punch clock data (CSV files and categories).')
             .addText(text => text
                 .setPlaceholder('punch-clock-data')
@@ -170,7 +170,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Start day of week setting
         new Setting(containerEl)
-            .setName('Start Day of Week')
+            .setName('Start day of week')
             .setDesc('Choose which day the week starts on (affects weekly view).')
             .addDropdown(dropdown => {
                 dropdown.addOption('0', 'Sunday');

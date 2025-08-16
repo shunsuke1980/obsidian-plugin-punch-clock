@@ -67,7 +67,7 @@ export default class PunchClockPlugin extends Plugin {
         // Add command to open timer modal
         this.addCommand({
             id: 'open-timer-modal',
-            name: 'Open Timer',
+            name: 'Open timer',
             callback: () => {
                 new TimerModal(this.app, this.dataManager, this.settings).open();
             }
@@ -76,7 +76,7 @@ export default class PunchClockPlugin extends Plugin {
         // Add command to open time tracker view
         this.addCommand({
             id: 'open-time-tracker-view',
-            name: 'Open Panel',
+            name: 'Open panel',
             callback: async () => {
                 await this.activateView();
             }
@@ -85,7 +85,7 @@ export default class PunchClockPlugin extends Plugin {
         // Add command to start a quick timer
         this.addCommand({
             id: 'start-quick-timer',
-            name: 'Start Quick Timer',
+            name: 'Start quick timer',
             callback: () => {
                 this.startQuickTimer();
             }
@@ -94,7 +94,7 @@ export default class PunchClockPlugin extends Plugin {
         // Add command to stop the current timer
         this.addCommand({
             id: 'stop-current-timer',
-            name: 'Stop Current Timer',
+            name: 'Stop current timer',
             callback: () => {
                 this.stopCurrentTimer();
             }
