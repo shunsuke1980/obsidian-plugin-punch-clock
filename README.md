@@ -1,4 +1,4 @@
-# Obsidian Punch Clock Plugin
+# Punch Clock Plugin
 
 A comprehensive punch clock plugin for Obsidian that enables precise time tracking with robust reporting and export capabilities.
 
