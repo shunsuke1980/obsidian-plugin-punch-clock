@@ -112,19 +112,6 @@ export class PunchClockSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 }));
 
-        // Show in ribbon
-        new Setting(containerEl)
-            .setName('Show in Ribbon')
-            .setDesc('Show the punch clock icon in the left ribbon.')
-            .addToggle(toggle => toggle
-                .setValue(this.plugin.settings.showInRibbon)
-                .onChange(async (value) => {
-                    this.plugin.settings.showInRibbon = value;
-                    await this.plugin.saveSettings();
-
-                    // Refresh ribbon icon
-                    this.plugin.refreshRibbonIcon();
-                }));
 
         // Default view
         new Setting(containerEl)

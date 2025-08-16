@@ -15,7 +15,6 @@ const DEFAULT_SETTINGS: PunchClockSettings = {
     },
     defaultCategory: 'Work',
     autoSave: true,
-    showInRibbon: true,
     defaultView: 'daily',
     dateFormat: 'YYYY-MM-DD',
     timeFormat: 'HH:mm:ss',
@@ -27,7 +26,6 @@ const DEFAULT_SETTINGS: PunchClockSettings = {
 export default class PunchClockPlugin extends Plugin {
     settings: PunchClockSettings;
     dataManager: DataManager;
-    ribbonIconEl: HTMLElement | null = null;
     activeTimer: NodeJS.Timeout | null = null;
 
     async onload() {
@@ -48,7 +46,17 @@ export default class PunchClockPlugin extends Plugin {
         await this.dataManager.loadData();
 
         // Add ribbon icon
-        this.refreshRibbonIcon();
+        this.addRibbonIcon('timer', 'Punch Clock', async () => {
+            const runningEntry = this.dataManager.getRunningEntry();
+            
+            if (runningEntry) {
+                // If timer is running, show the timer modal
+                new TimerModal(this.app, this.dataManager, this.settings).open();
+            } else {
+                // Otherwise, open the tracker view
+                await this.activateView();
+            }
+        });
 
         // Register view
         this.registerView(
@@ -100,31 +108,6 @@ export default class PunchClockPlugin extends Plugin {
         this.checkForRunningTimers();
     }
 
-    refreshRibbonIcon() {
-        // Remove existing ribbon icon if it exists
-        if (this.ribbonIconEl) {
-            this.ribbonIconEl.remove();
-            this.ribbonIconEl = null;
-        }
-
-        // Add the ribbon icon if enabled in settings
-        if (this.settings.showInRibbon) {
-            this.ribbonIconEl = this.addRibbonIcon('timer', 'Punch Clock', async () => {
-                const runningEntry = this.dataManager.getRunningEntry();
-                
-                if (runningEntry) {
-                    // If timer is running, show the timer modal
-                    new TimerModal(this.app, this.dataManager, this.settings).open();
-                } else {
-                    // Otherwise, open the tracker view
-                    await this.activateView();
-                }
-            });
-            
-            // Add CSS class to the ribbon icon
-            this.ribbonIconEl.addClass('punch-clock-ribbon-icon');
-        }
-    }
 
     async activateView() {
         const { workspace } = this.app;

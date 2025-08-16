@@ -18,7 +18,6 @@ export interface PunchClockSettings {
     categoryColors: { [categoryName: string]: string }; // category name to hex color mapping
     defaultCategory: string;
     autoSave: boolean;
-    showInRibbon: boolean;
     defaultView: 'daily' | 'weekly' | 'monthly';
     dateFormat: string;
     timeFormat: string;
