@@ -1,7 +1,6 @@
-import { App, ItemView, WorkspaceLeaf, ButtonComponent, TextComponent, DropdownComponent, Modal, Notice, setIcon } from 'obsidian';
+import { App, ItemView, WorkspaceLeaf, ButtonComponent, TextComponent, DropdownComponent, Modal, Notice, setIcon, moment } from 'obsidian';
 import { DataManager } from './data-manager';
 import { PunchClockSettings, TimeEntry } from './types';
-import moment, { Moment } from 'moment';
 
 /**
  * Modal for editing an existing time entry
@@ -349,7 +348,7 @@ export const PUNCH_CLOCK_VIEW_TYPE = 'punch-clock-view';
 export class PunchClockView extends ItemView {
     private dataManager: DataManager;
     private settings: PunchClockSettings;
-    private currentDate: Moment;
+    private currentDate: moment.Moment;
     private viewType: 'daily' | 'weekly' | 'monthly';
     private contentContainer: HTMLElement;
     private categoriesListEl: HTMLElement | null = null;

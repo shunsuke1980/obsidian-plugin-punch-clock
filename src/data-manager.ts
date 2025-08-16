@@ -1,6 +1,5 @@
-import { Plugin, TFile, Notice } from 'obsidian';
+import { Plugin, TFile, Notice, moment } from 'obsidian';
 import { TimeEntry, MonthlyReport, DailyReport, PunchClockSettings } from './types';
-import moment from 'moment';
 
 // Interface for the plugin that DataManager expects
 interface PunchClockPluginInterface extends Plugin {
