@@ -27,8 +27,6 @@ export class PunchClockSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Punch Clock Settings' });
-
         // Categories
         new Setting(containerEl)
             .setName('Categories')
@@ -54,7 +52,7 @@ export class PunchClockSettingTab extends PluginSettingTab {
 
         // Category Colors
         if (this.plugin.settings.categories.length > 0) {
-            containerEl.createEl('h3', { text: 'Category colors' });
+            new Setting(containerEl).setName('Category colors').setHeading();
 
             // Ensure all categories have colors
             if (!this.plugin.settings.categoryColors) {
